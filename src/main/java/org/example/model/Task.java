@@ -1,7 +1,7 @@
 package org.example.model;
 
 public class Task {
-    private static int proxId = 1;
+    private static int proxId = 0;
 
     private  int id;
     private String name;

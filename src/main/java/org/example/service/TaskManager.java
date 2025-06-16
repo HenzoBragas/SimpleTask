@@ -9,13 +9,13 @@ public class TaskManager {
     private ArrayList<Task> tasks = new ArrayList<>();
 
     // Cria tarefa
-    public void taskAdd(String name, String descricao) {
-        Task newTask = new Task(name, descricao);
+    public void addTask(String name, String description) {
+        Task newTask = new Task(name, description);
         tasks.add(newTask);
     }
 
     // lista todas as tarefas
-    public void taskList() {
+    public void listTask() {
         System.out.println("=== Todas as tarefas ===");
         boolean itFound = false;
         for (Task task : tasks) {
@@ -31,7 +31,7 @@ public class TaskManager {
     }
 
     // listar todas tarefas concluidas
-    public void taskListCompleted() {
+    public void listCompletedTasks() {
         System.out.println("=== Todas as tarefas concluídas ===");
         boolean itFound = false;
         for (Task task : tasks) {
@@ -49,7 +49,7 @@ public class TaskManager {
     }
 
     // listar todas as tarefas não concluídas
-    public void taskListIsNotCompleted() {
+    public void listIsNotCompletedTasks() {
         System.out.println("=== Todas as tarefas não concluídas ===");
         boolean itFound = false;
         for (Task task : tasks) {
@@ -66,44 +66,36 @@ public class TaskManager {
             System.out.println("Nenhuma tarefa encontrada");
     }
 
-    public void editTask(String name, String newName, String newDescription, boolean markCompleted) {
+    //Edita as tarefas
+    public void editTask(String name, String newName, String newDescription, String isCompleted) {
         boolean edit = false;
         for (Task task : tasks) {
             if (task.getName().equals(name)) {
-                System.out.println("Renomea o nome da tarefa");
                 task.setName(newName);
-                System.out.println("Descrição da tarefa");
                 task.setDescription(newDescription);
-                System.out.println("Status da tarefa");
-                if (markCompleted) {
-                    task.markAsCompleted();
-                } else {
-                    task.markAsCompleted();
+                if (task.getName().equals(name)) {
+                    if (isCompleted.toLowerCase().equals("sim")) {
+                        task.markAsCompleted();
+                        break;
+                    } else if (isCompleted.toLowerCase().equals("nao")) {
+                        task.unmarkAsCompleted();
+                        break;
+                    } else {
+                        System.out.println("Opção inválida");
+                        return;
+                    }
                 }
                 edit = true;
                 break;
             }
             if (!edit) {
                 System.out.println("Tarefa não encontrada.");
+            } else{
+                System.out.println("Tarefa editada com sucesso. ");
             }
         }
     }
-
-    public void removeTask(String name) {
-        boolean removed = false;
-        for (Task task : tasks) {
-            if (task.getName().equals(name)) {
-                tasks.remove(task);
-                removed = true;
-                System.out.println("Tarefa removida com sucesso.");
-                break;
-            }
-        }
-        if (!removed) {
-            System.out.println("Tarefa não encontrada.");
-        }
-    }
-
+    //Marca como concluida ou não
     public void completedTask(String name, String isCompleted) {
         boolean completed = false;
         for (Task task : tasks) {
@@ -123,6 +115,22 @@ public class TaskManager {
             }
         }
         if (!completed) {
+            System.out.println("Tarefa não encontrada.");
+        }
+    }
+
+    //Remove as tarefas
+    public void removeTask(String name) {
+        boolean removed = false;
+        for (Task task : tasks) {
+            if (task.getName().equals(name)) {
+                tasks.remove(task);
+                removed = true;
+                System.out.println("Tarefa removida com sucesso.");
+                break;
+            }
+        }
+        if (!removed) {
             System.out.println("Tarefa não encontrada.");
         }
     }
