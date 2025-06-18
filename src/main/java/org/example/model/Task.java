@@ -1,7 +1,7 @@
 package org.example.model;
 
 public class Task {
-    private static int proxId = 0;
+    private static int proxId = 1;
 
     private  int id;
     private String name;
@@ -14,6 +14,12 @@ public class Task {
         this.name = name;
         this.description = description;
         this.completed = false;
+    }
+    public Task(String name, String description, boolean completed) {
+        this.id = proxId++;
+        this.name = name;
+        this.description = description;
+        this.completed = completed; // Define o status com base no parâmetro
     }
 
     public int getId() {

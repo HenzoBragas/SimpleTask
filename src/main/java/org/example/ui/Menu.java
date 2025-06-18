@@ -46,26 +46,27 @@ public class Menu {
 
     public void showAddTasK() {
         System.out.println("\n --Adicionar uma nova tarefa--");
-        System.out.println("Nome da tarefa");
+        System.out.print("Nome da tarefa: ");
         String name = sc.nextLine();
 
-        System.out.println("Descrição da tarefa");
+        System.out.println("Descrição da tarefa: ");
         String description = sc.nextLine();
 
+        System.out.print("A tarefa já está concluída? (s para Sim / n para Não): ");
+        String isCompletedInput = sc.nextLine();
 
-        Task task = new Task(name, description);
-        manager.addTask(name, description);
+        manager.addTask(name, description, isCompletedInput);
     }
 
     public void showEditTasks() {
         System.out.println("--Editar tarefa");
-        System.out.println("Digite o nome da tarefa que deseja editar");
+        System.out.println("Digite o nome da tarefa que deseja editar: ");
         String name = sc.nextLine();
         System.out.println("Renomeia o nome da tarefa: ");
         String newName = sc.nextLine();
         System.out.println("Nova descrição: ");
         String newDescription = sc.nextLine();
-        System.out.println("Status da tarefa: (SIM/NAO) ");
+        System.out.println("Status da tarefa: (s para Sim / n para Não): ");
         String isCompleted = sc.nextLine();
 
         manager.editTask(name, newName, newDescription, isCompleted);
@@ -75,7 +76,7 @@ public class Menu {
         System.out.println("--Concluir Tarefa");
         System.out.println("Digite o nome da tarefa que deseja concluir ou desconcluir");
         String name = sc.nextLine();
-        System.out.println("Status da tarefa: (SIM/NAO) ");
+        System.out.println("Status da tarefa: (s para Sim / n para Não): ");
         String isCompleted = sc.nextLine();
 
         manager.completedTask(name, isCompleted);

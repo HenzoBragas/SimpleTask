@@ -3,67 +3,81 @@ package org.example.service;
 import org.example.model.Task;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 
 public class TaskManager {
     private ArrayList<Task> tasks = new ArrayList<>();
 
+
     // Cria tarefa
-    public void addTask(String name, String description) {
-        Task newTask = new Task(name, description);
+    public void addTask(String name, String description, String isCompletedInput) {
+        boolean completedStatus;
+
+        if(isCompletedInput != null && isCompletedInput.trim().equalsIgnoreCase("s")) {
+            completedStatus = true;
+        } else {
+            completedStatus = false;
+        }
+        Task newTask = new Task(name, description, completedStatus);
         tasks.add(newTask);
+        System.out.println("Tarefa '" + name + "' adicionada com sucesso! \nStatus inicial: " + (completedStatus ? "Concluída" : "Não Concluída"));
     }
 
-    // lista todas as tarefas
-    public void listTask() {
-        System.out.println("=== Todas as tarefas ===");
-        boolean itFound = false;
+    //Metodo para processor e exibir tarefas
+    private void processAndDisplayTasks(String header, Predicate<Task> filter, Consumer<Task> displayLogic, String noTasksMessage) {
+        System.out.println(header);
+        boolean found = false;
         for (Task task : tasks) {
+            if (filter.test(task)) {
+                displayLogic.accept(task);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println(noTasksMessage);
+        }
+    }
+
+    private Consumer<Task> getDefaultTaskDisplayLogic() {
+        return task -> {
             System.out.println("ID: " + task.getId());
             System.out.println("Nome: " + task.getName());
             System.out.println("Descrição: " + task.getDescription());
             System.out.println("Concluída: " + (task.isCompleted() ? "Sim" : "Não"));
             System.out.println("------------------------");
-            itFound = true;
-        }
-        if (!itFound)
-            System.out.println("Nenhuma tarefa encontrada");
+        };
+    }
+
+    // lista todas as tarefas
+    public void listTask() {
+        processAndDisplayTasks(
+                "=== Todas as tarefas ===",
+                task -> true,
+                getDefaultTaskDisplayLogic(),
+                "Nenhuma tarefa encontrada"
+        );
     }
 
     // listar todas tarefas concluidas
     public void listCompletedTasks() {
-        System.out.println("=== Todas as tarefas concluídas ===");
-        boolean itFound = false;
-        for (Task task : tasks) {
-            if (task.isCompleted() == true) {
-                System.out.println("ID: " + task.getId());
-                System.out.println("Nome: " + task.getName());
-                System.out.println("Descrição: " + task.getDescription());
-                System.out.println("Concluída: " + (task.isCompleted() ? "Sim" : "Não"));
-                System.out.println("------------------------");
-                itFound = true;
-            }
-        }
-        if (!itFound)
-            System.out.println("Nenhuma tarefa encontrada");
+       processAndDisplayTasks(
+               "=== Tarefas Concluídas ===",
+               Task::isCompleted,
+               getDefaultTaskDisplayLogic(),
+               "Nenhuma tarefa concluída encontrada"
+       );
     }
 
     // listar todas as tarefas não concluídas
     public void listIsNotCompletedTasks() {
-        System.out.println("=== Todas as tarefas não concluídas ===");
-        boolean itFound = false;
-        for (Task task : tasks) {
-            if (task.isCompleted() == false) {
-                System.out.println("ID: " + task.getId());
-                System.out.println("Nome: " + task.getName());
-                System.out.println("Descrição: " + task.getDescription());
-                System.out.println("Concluída: " + (task.isCompleted() ? "Sim" : "Não"));
-                System.out.println("------------------------");
-                itFound = true;
-            }
-        }
-        if (!itFound)
-            System.out.println("Nenhuma tarefa encontrada");
+       processAndDisplayTasks(
+               "=== Tarefas pendentes",
+               task -> !task.isCompleted(),
+               getDefaultTaskDisplayLogic(),
+               "Nenhuma tarefa pendente encontrada"
+       );
     }
 
     //Edita as tarefas
@@ -74,10 +88,10 @@ public class TaskManager {
                 task.setName(newName);
                 task.setDescription(newDescription);
                 if (task.getName().equals(name)) {
-                    if (isCompleted.toLowerCase().equals("sim")) {
+                    if (isCompleted.toLowerCase().equals("s")) {
                         task.markAsCompleted();
                         break;
-                    } else if (isCompleted.toLowerCase().equals("nao")) {
+                    } else if (isCompleted.toLowerCase().equals("n")) {
                         task.unmarkAsCompleted();
                         break;
                     } else {
@@ -90,11 +104,12 @@ public class TaskManager {
             }
             if (!edit) {
                 System.out.println("Tarefa não encontrada.");
-            } else{
+            } else {
                 System.out.println("Tarefa editada com sucesso. ");
             }
         }
     }
+
     //Marca como concluida ou não
     public void completedTask(String name, String isCompleted) {
         boolean completed = false;
