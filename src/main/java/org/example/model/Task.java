@@ -8,13 +8,6 @@ public class Task {
     private String description;
     private boolean completed;
 
-
-    public Task(String name, String description) {
-        this.id = proxId++;
-        this.name = name;
-        this.description = description;
-        this.completed = false;
-    }
     public Task(String name, String description, boolean completed) {
         this.id = proxId++;
         this.name = name;
