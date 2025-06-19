@@ -1,5 +1,5 @@
 # 📝 SimpleTask
-![Java](https://img.shields.io/badge/Java-23-blue?style=for-the-badge&logo=openjdk&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17+-blue?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Concluído-green?style=for-the-badge)
 
 ## 🎯 Sobre o Projeto
@@ -25,7 +25,7 @@
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Linguagem Principal:** `Java 23 `
+* **Linguagem Principal:** `Java 17 + `
 * **Gerenciador de Build:** `Apache Maven`
 * **Ferramentas de Desenvolvimento:** `Git`, `IntelliJ IDEA`
 
@@ -64,7 +64,7 @@ Existem duas maneiras de executar o projeto: via linha de comando (método padr�
 Garante que o projeto possa ser executado em qualquer ambiente.
 
 **Pré-requisitos:**
-* Java JDK (versão 23)
+* Java JDK (versão 17 ou superior)
 * Apache Maven (versão 3.6 ou superior)
 * Git
 
